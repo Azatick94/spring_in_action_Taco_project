@@ -57,6 +57,8 @@ public class DesignTacoController {
     }
 
     @PostMapping
+    // @Valid is  used to use Validation rules to check attribute properties.
+    // @Valid annotation tells Spring MVC to perform validation on the submitted Taco object before processDesign() method is called
     public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, Model model) {
         if (errors.hasErrors()) {
             return "design";
