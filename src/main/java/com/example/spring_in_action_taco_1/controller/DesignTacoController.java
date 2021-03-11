@@ -5,7 +5,7 @@ import com.example.spring_in_action_taco_1.model.Type;
 import com.example.spring_in_action_taco_1.model.Ingredient;
 import com.example.spring_in_action_taco_1.model.Taco;
 import com.example.spring_in_action_taco_1.repository.datajpa.DataJpaIngredientRepository;
-//import com.example.spring_in_action_taco_1.repository.datajpa.DataJpaTacoRepository;
+import com.example.spring_in_action_taco_1.repository.datajpa.DataJpaTacoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,15 +24,15 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")
-public class DesignTacoController {
+public class  DesignTacoController {
 
     private final DataJpaIngredientRepository ingredientRepo;
-//    private final DataJpaTacoRepository designRepo;
+    private final DataJpaTacoRepository designRepo;
 
     @Autowired
-    public DesignTacoController(DataJpaIngredientRepository ingredientRepo) {
+    public DesignTacoController(DataJpaIngredientRepository ingredientRepo, DataJpaTacoRepository designRepo) {
         this.ingredientRepo = ingredientRepo;
-//        this.designRepo = designRepo;
+        this.designRepo = designRepo;
     }
 
     @ModelAttribute(name = "order")
@@ -53,6 +53,8 @@ public class DesignTacoController {
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
+        model.addAttribute("allIngredients", ingredients);
+
         return "design_test";
 //        return "design";
     }

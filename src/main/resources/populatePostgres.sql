@@ -47,6 +47,6 @@ VALUES ('Want taco', 'Gagarina', 'Moscow', 'MS', '432523', '3354325', '2022', '1
 
 INSERT INTO taco_order_tacos (taco_order, taco)
 VALUES (1, 1),
-       (2, 2),
+--        (2, 2),
        (2, 3);
 

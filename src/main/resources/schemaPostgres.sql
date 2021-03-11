@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS Taco_Order
 
 CREATE TABLE IF NOT EXISTS Taco_Order_Tacos
 (
-    taco_Order bigint NOT NULL,
+    taco_order bigint NOT NULL,
     taco       bigint NOT NULL,
-    FOREIGN KEY (taco_Order) REFERENCES Taco_Order (id),
+    FOREIGN KEY (taco_order) REFERENCES Taco_Order (id),
     FOREIGN KEY (taco) REFERENCES Taco (id)
 );
