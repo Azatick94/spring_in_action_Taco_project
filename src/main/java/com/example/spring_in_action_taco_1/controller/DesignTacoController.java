@@ -1,6 +1,6 @@
 package com.example.spring_in_action_taco_1.controller;
 
-import com.example.spring_in_action_taco_1.model.Order;
+import com.example.spring_in_action_taco_1.model.TacoOrder;
 import com.example.spring_in_action_taco_1.model.Type;
 import com.example.spring_in_action_taco_1.model.Ingredient;
 import com.example.spring_in_action_taco_1.model.Taco;
@@ -36,8 +36,8 @@ public class DesignTacoController {
     }
 
     @ModelAttribute(name = "order")
-    public Order order() {
-        return new Order();
+    public TacoOrder order() {
+        return new TacoOrder();
     }
 
     @ModelAttribute(name = "taco")
@@ -60,7 +60,7 @@ public class DesignTacoController {
     @PostMapping
     public String processDesign(
             @Valid Taco design, Errors errors,
-            @ModelAttribute Order order) {
+            @ModelAttribute TacoOrder order) {
 
         if (errors.hasErrors()) {
             return "design";

@@ -15,12 +15,15 @@ public class Taco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
     private Long id;
 
     @NotNull
     @Size(min = 5, message = "Name must be at least 5 characters long")
+    @Column(name="name")
     private String name;
 
+    @Column(name="created_at")
     private Date createdAt;
 
     // Taco can have many Ingredient objects, and an Ingredient can be a part of many Tacos.

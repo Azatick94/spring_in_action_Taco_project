@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS Ingredient
 
 CREATE TABLE IF NOT EXISTS Taco
 (
-    id        integer PRIMARY KEY,
-    name      varchar(50) NOT NULL,
-    createdAt timestamp   NOT NULL
+    id         SERIAL PRIMARY KEY,
+    name       varchar(50) NOT NULL,
+    created_at timestamp   NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Taco_Ingredients
@@ -28,22 +28,22 @@ CREATE TABLE IF NOT EXISTS Taco_Ingredients
 
 CREATE TABLE IF NOT EXISTS Taco_Order
 (
-    id             integer PRIMARY KEY,
-    deliveryName   varchar(50) NOT NULL,
-    deliveryStreet varchar(50) NOT NULL,
-    deliveryCity   varchar(50) NOT NULL,
-    deliveryState  varchar(2)  NOT NULL,
-    deliveryZip    varchar(10) NOT NULL,
-    ccNumber       varchar(16) NOT NULL,
-    ccExpiration   varchar(5)  NOT NULL,
-    ccCVV          varchar(3)  NOT NULL,
-    placedAt       timestamp   NOT NULL
+    id              SERIAL PRIMARY KEY,
+    delivery_Name   varchar(50) NOT NULL,
+    delivery_Street varchar(50) NOT NULL,
+    delivery_City   varchar(50) NOT NULL,
+    delivery_State  varchar(2)  NOT NULL,
+    delivery_Zip    varchar(10) NOT NULL,
+    cc_Number       varchar(16) NOT NULL,
+    cc_Expiration   varchar(5)  NOT NULL,
+    cc_CVV          varchar(3)  NOT NULL,
+    placed_At       timestamp   NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Taco_Order_Tacos
 (
-    tacoOrder bigint NOT NULL,
-    taco      bigint NOT NULL,
-    FOREIGN KEY (tacoOrder) REFERENCES Taco_Order (id),
+    taco_Order bigint NOT NULL,
+    taco       bigint NOT NULL,
+    FOREIGN KEY (taco_Order) REFERENCES Taco_Order (id),
     FOREIGN KEY (taco) REFERENCES Taco (id)
 );

@@ -1,6 +1,6 @@
 package com.example.spring_in_action_taco_1.controller;
 
-import com.example.spring_in_action_taco_1.model.Order;
+import com.example.spring_in_action_taco_1.model.TacoOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +19,14 @@ public class OrderController {
     // url to submit order attributes
     @GetMapping("/current")
     public String orderForm(Model model) {
-        model.addAttribute("order", new Order());
+        model.addAttribute("order", new TacoOrder());
         return "orderForm";
     }
 
     // When the processOrder() method is called to handle a submitted order, it’s given an
     //Order object whose properties are bound to the submitted form fields.
     @PostMapping
-    public String processOrder(@Valid Order order, Errors errors) {
+    public String processOrder(@Valid TacoOrder order, Errors errors) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
