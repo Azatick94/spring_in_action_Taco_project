@@ -1,8 +1,10 @@
 package com.example.spring_in_action_taco_1;
 
+import com.example.spring_in_action_taco_1.configuration.WebConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,10 +12,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.containsString;
 
 @WebMvcTest
+@ContextConfiguration(classes = {WebConfig.class, SpringInActionTaco1Application.class})
 class HomeControllerTest {
 
     // For testing requests @WebMvcTest Annotation should be used
-
     @Autowired
     private MockMvc mockMvc;
 

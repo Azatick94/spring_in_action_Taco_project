@@ -1,30 +1,27 @@
-//package com.example.spring_in_action_taco_1.repository;
-//
-//import com.example.spring_in_action_taco_1.model.Ingredient;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//
-//@RunWith(SpringRunner.class)
-//@EnableAutoConfiguration
-//@SpringBootTest
-//public class IngredientRepositoryTest {
-//
-//    @Autowired
-//    private IngredientRepository ingredientRepository;
-//
-//    @Test
-//    public void whenCalledSave_thenCorrectNumberOfUsers() {
-//        Iterable<Ingredient> all = ingredientRepository.findAll();
-//        System.out.println();
-//
-////        ingredientRepository.save(new User("Bob", "bob@domain.com"));
-////        List<User> users = (List<User>) userRepository.findAll();
-////
-////        assertThat(users.size()).isEqualTo(1);
-//    }
-//
-//}
+package com.example.spring_in_action_taco_1.repository;
+
+import com.example.spring_in_action_taco_1.model.Ingredient;
+import com.example.spring_in_action_taco_1.repository.datajpa.DataJpaIngredientRepository;
+import com.example.spring_in_action_taco_1.testData.IngredientRepositoryTestData;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+public class IngredientRepositoryTest {
+
+    @Autowired
+    DataJpaIngredientRepository dataJpaIngredientRepository;
+
+    @Test
+    public void getAllIngredient() {
+        List<Ingredient> calculated = dataJpaIngredientRepository.getAll();
+        List<Ingredient> expected = IngredientRepositoryTestData.getAllIngredients();
+        assertThat(calculated).isEqualTo(expected);
+    }
+
+}
