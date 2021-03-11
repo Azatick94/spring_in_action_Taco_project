@@ -1,76 +1,79 @@
 package com.example.spring_in_action_taco_1.controller;
 
+import com.example.spring_in_action_taco_1.model.Order;
 import com.example.spring_in_action_taco_1.model.Type;
 import com.example.spring_in_action_taco_1.model.Ingredient;
 import com.example.spring_in_action_taco_1.model.Taco;
+import com.example.spring_in_action_taco_1.repository.datajpa.DataJpaIngredientRepository;
+//import com.example.spring_in_action_taco_1.repository.datajpa.DataJpaTacoRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// The first, @Slf4j, is a Lombok-provided annotation that, at runtime,
+//will automatically generate an SLF4J
 @Slf4j
 @Controller
 @RequestMapping("/design")
+@SessionAttributes("order")
 public class DesignTacoController {
 
-    // The first, @Slf4j, is a Lombok-provided annotation that, at runtime,
-    //will automatically generate an SLF4J
+    private final DataJpaIngredientRepository ingredientRepo;
+//    private final DataJpaTacoRepository designRepo;
 
-    @ModelAttribute
-    // add atributes to Model
-    public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = Arrays.asList(
-                new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
-                new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
-                new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
-                new Ingredient("CARN", "Carnitas", Type.PROTEIN),
-                new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES),
-                new Ingredient("LETC", "Lettuce", Type.VEGGIES),
-                new Ingredient("CHED", "Cheddar", Type.CHEESE),
-                new Ingredient("JACK", "Monterrey Jack", Type.CHEESE),
-                new Ingredient("SLSA", "Salsa", Type.SAUCE),
-                new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
-        );
+    @Autowired
+    public DesignTacoController(DataJpaIngredientRepository ingredientRepo) {
+        this.ingredientRepo = ingredientRepo;
+//        this.designRepo = designRepo;
+    }
 
-        Type[] types = Type.values();
-        for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(),
-                    filterByType(ingredients, type));
-        }
+    @ModelAttribute(name = "order")
+    public Order order() {
+        return new Order();
+    }
+
+    @ModelAttribute(name = "taco")
+    public Taco taco() {
+        return new Taco();
     }
 
     @GetMapping
     public String showDesignForm(Model model) {
-        //        data that’s placed in Model attributes is copied into the servlet response attributes,
-        //where the view can find them.
-        model.addAttribute("design", new Taco());
-        return "design";
+        List<Ingredient> ingredients = new ArrayList<>(ingredientRepo.getAll());
+
+        Type[] types = Type.values();
+        for (Type type : types) {
+            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
+        }
+        return "design_test";
+//        return "design";
     }
 
     @PostMapping
-    // @Valid is  used to use Validation rules to check attribute properties.
-    // @Valid annotation tells Spring MVC to perform validation on the submitted Taco object before processDesign() method is called
-    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, Model model) {
+    public String processDesign(
+            @Valid Taco design, Errors errors,
+            @ModelAttribute Order order) {
+
         if (errors.hasErrors()) {
             return "design";
         }
-        // method to handle POST requests for Taco creation.
-        log.info("Processing design: " + design);
-        // redirect indicates that this is a redirect view.
+
+//        Taco saved = designRepo.save(design);
+//        order.addDesign(saved);
+
         return "redirect:/orders/current";
     }
 
-    // helper method to filter ingredients
-    private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
+    private List<Ingredient> filterByType(
+            List<Ingredient> ingredients, Type type) {
         return ingredients
                 .stream()
                 .filter(x -> x.getType().equals(type))
